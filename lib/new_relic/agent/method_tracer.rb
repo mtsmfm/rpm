@@ -326,8 +326,8 @@ module NewRelic
           class_eval traced_method, __FILE__, __LINE__
           alias_method _untraced_method_name(method_name, metric_name_code), method_name
           alias_method method_name, _traced_method_name(method_name, metric_name_code)
-          send visibility, method_name
-          send visibility, _traced_method_name(method_name, metric_name_code)
+          Module.method(visibility).unbind.bind(self).call(method_name)
+          Module.method(visibility).unbind.bind(self).call(_traced_method_name(method_name, metric_name_code))
           ::NewRelic::Agent.logger.debug("Traced method: class = #{derived_class_name},"+
                                          "method = #{method_name}, "+
                                          "metric = '#{metric_name_code}'")

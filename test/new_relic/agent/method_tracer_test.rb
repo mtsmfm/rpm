@@ -13,6 +13,10 @@ class Module
 end
 
 class Insider
+  def self.public;    end
+  def self.protected; end
+  def self.private;   end
+
   def initialize(stats_engine)
     @stats_engine = stats_engine
   end
